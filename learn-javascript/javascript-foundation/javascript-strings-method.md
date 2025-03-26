@@ -54,3 +54,54 @@ if (browserType.includes("zilla")) {
   console.log("No zilla here!");
 }
 ```
+
+Often you'll want to know if a string starts or ends with a particular substring. This is a common enough need that there are two special methods for this: [startsWith()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith) and [endsWith()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith):
+
+```javascript
+const browserType = "mozilla";
+
+if (browserType.startsWith("zilla")) {
+  console.log("Found zilla!");
+} else {
+  console.log("No zilla here!");
+}
+```
+
+```javascript
+const browserType = "mozilla";
+
+if (browserType.endsWith("zilla")) {
+  console.log("Found zilla!");
+} else {
+  console.log("No zilla here!");
+}
+```
+
+## Finding the position of a substring in a string
+
+You can find the position of a substring inside a larger string using the [indexOf()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf) method. This method takes two parameters – the substring that you want to search for, and an optional parameter that specifies the starting point of the search.
+
+If the string contains the substring, `indexOf()` returns the index of the first occurrence of the substring. If the string does not contain the substring, `indexOf()` returns -1.
+
+```javascript
+const tagline = "MDN - Resources for developers, by developers";
+console.log(tagline.indexOf("developers")); // 20
+```
+
+Starting at 0, if you count the number of characters (including the whitespace) from the beginning of the string, the first occurrence of the substring "developers" is at index 20.
+
+```javascript
+console.log(tagline.indexOf("x")); // -1
+```
+
+So now that you know how to find the first occurrence of a substring, how do you go about finding subsequent occurrences? You can do that by passing in a value that's greater than the index of the previous occurrence as the second parameter to the method.
+
+```javascript
+const firstOccurrence = tagline.indexOf("developers");
+const secondOccurrence = tagline.indexOf("developers", firstOccurrence + 1);
+
+console.log(firstOccurrence); // 20
+console.log(secondOccurrence); // 35
+```
+
+Here we're telling the method to search for the substring `"developers"` starting at index `21` (`firstOccurrence + 1`), and it returns the index `35`.
