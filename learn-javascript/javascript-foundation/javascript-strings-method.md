@@ -38,3 +38,19 @@ browserType[browserType.length - 1];
 ```
 
 The length of the string "mozilla" is 7, but because the count starts at 0, the last character's position is 6; using length-1 gets us the last character.
+
+## Testing if a string contains a substring
+
+Sometimes you'll want to find if a smaller string is present inside a larger one (we generally say if a substring is present inside a string). This can be done using the [includes()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes) method, which takes a single [parameter](https://developer.mozilla.org/en-US/docs/Glossary/Parameter) — the substring you want to search for.
+
+It returns `true` if the string contains the substring, and `false` otherwise.
+
+```javascript
+const browserType = "mozilla";
+
+if (browserType.includes("zilla")) {
+  console.log("Found zilla!");
+} else {
+  console.log("No zilla here!");
+}
+```
