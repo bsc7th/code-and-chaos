@@ -181,3 +181,23 @@ console.log(name + number); // "Front 242"
 ```
 
 You might expect this to return an error, but it works just fine. How numbers should be displayed as strings is fairly well-defined, so the browser automatically converts the number to a string and concatenates the two strings.
+
+If you have a numeric variable that you want to convert to a string or a string variable that you want to convert to a number, you can use the following two constructs:
+
+- The `Number()` function converts anything passed to it into a number if it can. Try the following:
+
+```javascript
+const myString = "123";
+const myNum = Number(myString);
+console.log(typeof myNum); // number
+```
+
+Conversely, the `String()` function converts its argument to a string. Try this:
+
+```javascript
+const myNum2 = 123;
+const myString2 = String(myNum2);
+console.log(typeof myString2); // string
+```
+
+These constructs can be really useful in some situations. For example, if a user enters a number into a form's text field, it's a string. However, if you want to add this number to something, you'll need it to be a number, so you could pass it through `Number()` to handle this.
