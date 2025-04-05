@@ -1,142 +1,114 @@
-# Astro + React TS Built with Bun Workflow
+# Building an Astro + React Project with TypeScript and Bun
 
-## Manual Setup
+In this tutorial, I'll walk through the steps to set up a modern Astro project with React and TypeScript, using Bun as the package manager. Bun is a fast JavaScript runtime that can significantly speed up build times, making it an excellent choice for modern web development. We'll configure the environment step-by-step, ensuring a smooth and optimized development process
 
-Create an empty directory with the name of your project, and then navigate into it.
+## Manual Setup of the Project Directory
 
-```bash
-mkdir my-astro-project
-cd my-astro-project
+Begin by creating a new directory for your project. This will be where all your files are stored.
+
+```zsh
+mkdir my-astro-blog
+z my-astro-blog
 ```
 
-## Create package.json
+This command creates a folder named `astro-blog` and navigates into it. Replace the folder name with whatever you'd like to name your project.
 
-```bash
+## Initialize Git (Optional)
+
+While using Git for version control is optional, it is a good practice to track changes in your project.
+
+```zsh
+git init
+```
+
+This command initializes a new Git repository within your project directory.
+
+## Configure Bun with Git
+
+Bun uses `.lockb` files to manage dependencies. To prevent Git from misinterpreting these files, we need to configure Git to handle them correctly.
+
+First, create the `.gitattributes` file:
+
+```zsh
+vim .gitattributes
+```
+
+Add the following content to it:
+
+```
+*.lockb binary diff=lockb
+```
+
+Then, configure Git to handle Bun’s lock files by running the following:
+
+```zsh
+git config diff.lockb.textconv bun
+git config diff.lockb.binary true
+```
+
+## Initialize Bun Project
+
+Now that Git is set up, you can initialize a new Bun project. This command will create the `package.json` file and prepare the project for dependency management.
+
+```zsh
 bun init --yes
 ```
 
-Then, replace any placeholder “scripts” section of your `package.json` with the following to use bun.
+This will generate a `package.json` file that contains default settings for your project.
+
+## Setting Up the Package Scripts
+
+To manage common tasks like running the development server or building the project, add scripts to the `package.json` file. Open `package.json` and modify it as follows:
 
 ```json
 {
-  "name": "rjleyva-blog",
-  "author": "RJ Leyva",
-  "description": "RJ Leyva's Astro React TS Blog built with Bun",
-  "license": "MIT",
-  "type": "module",
-  "private": true,
-  "engine": {
-    "bun": ">=0.6.0"
-  },
   "scripts": {
     "dev": "bunx --bun astro dev",
     "build": "bunx --bun astro check && astro build",
     "preview": "bunx --bun astro preview",
     "lint": "bunx --bun eslint .",
-    "format": "bunx --bun pretttier --write .",
+    "format": "bunx --bun prettier --write .",
     "astro": "astro"
-  },
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  },
-  "keywords": [
-    "astro",
-    "bun",
-    "react",
-    "blog",
-    "static site",
-    "static site generator",
-    "frontend",
-    "web development",
-    "javascript",
-    "typescript",
-    "react blog",
-    "astro blog",
-    "personal blog",
-    "content creation",
-    "web design",
-    "react components",
-    "astro components",
-    "modern web development",
-    "responsive design",
-    "seo",
-    "seo optimization",
-    "javascript blog",
-    "typescript blog",
-    "open source blog",
-    "minimalistic blog",
-    "fast website",
-    "fast loading blog",
-    "developer blog",
-    "web performance",
-    "front-end development",
-    "web app",
-    "progressive web app",
-    "PWA"
-  ]
+  }
 }
 ```
 
-## Create `git module`
+Explanation of Scripts:
 
-```bash
-nvim .gitattributes
-```
+- dev: Starts the Astro development server.
+- build: Builds the project for production.
+- preview: Previews the production build.
+- lint: Runs ESLint to check for code quality.
+- format: Formats the code using Prettier.
+- astro: Allows running Astro commands directly.
 
-add this following:
+## Installing Astro
 
-```.gitattributes
-*.lockb binary diff=lockb
-```
+Astro should be installed locally, not globally. To add Astro to your project, run:
 
-then run this following commands:
-
-```bash
-git config diff.lockb.textconv bun
-```
-
-```bash
-git config diff.lockb.binary true
-```
-
-**Important**
-
-Astro must be installed locally, not globally. Make sure you are not running `bun add global astro`
-
-```bash
+```zsh
 bun add astro
 ```
 
-## React Integrations
+## React Integration
 
-```bash
+Astro supports React out-of-the-box. To integrate React into your project, use the following command:
+
+```zsh
 bun astro add react
 ```
 
-## Git init
+This command will install the necessary dependencies for React, and it will update your `astro.config.mjs` file to include the React integration.
 
-```bash
-git init
-```
+## Install Prettier and Astro Plugin
 
-## Install prettier and prettier-plugin-astro.
+Next, we’ll add Prettier for consistent code formatting. Install Prettier and the Astro-specific plugin:
 
-```bash
+```mjs
 bun add -d prettier prettier-plugin-astro
 ```
 
-```bash
-bun add --save-dev prettier prettier-plugin-astro
-```
-
-Create a `.prettierrc.mjs` config file at the root of your project and add prettier-plugin-astro to it.
-
-```bash
-nvim .prettierrc.mjs
-```
+## Configure Prettier
 
 ```mjs
 /** @type {import("prettier").Config} */
@@ -160,42 +132,64 @@ export default {
 };
 ```
 
-```typescript
-import { type Config } from "prettier";
+This setup ensures that Prettier formats your `.astro` files correctly.
 
-const config: Config = {
-  arrowParens: "avoid",
-  singleQuote: true,
-  bracketSpacing: true,
-  endOfLine: "lf",
-  semi: false,
-  tabWidth: 2,
-  trailingComma: "none",
-  plugins: ["prettier-plugin-astro"],
-  overrides: [
-    {
-      files: "*.astro",
-      options: {
-        parser: "astro",
-      },
-    },
-  ],
-};
+run this command `bun run format` to see if it's working properly.
 
-export default config;
+## Installing ESLint for Code Linting
+
+To maintain code quality, we’ll use ESLint. Install ESLint and the Astro plugin:
+
+```zsh
+bun add -d eslint eslint-plugin-astro
 ```
 
-## TypeScript editor plugin
+## Configure ESLint
 
-```bash
+```mjs
+import { defineConfig } from "eslint-define-config";
+
+export default defineConfig([
+  {
+    files: ["*.astro"],
+    parser: "astro-eslint-parser",
+    parserOptions: {
+      extraFileExtensions: [".astro"],
+    },
+    plugins: {
+      astro: import("eslint-plugin-astro"),
+    },
+    extends: ["plugin:astro/recommended"],
+  },
+  {
+    files: ["*.ts", "*.tsx"],
+    parser: "@typescript-eslint/parser",
+    plugins: {
+      "@typescript-eslint/parser": import("@typescript-eslint/parser"),
+    },
+    extends: [
+      "plugin:@typescript-eslint/recommended",
+      "plugin:astro/recommended",
+    ],
+  },
+]);
+```
+
+Install eslint-define-config dependencies
+
+```zsh
+bun add eslint-define-config
+```
+
+then run `bun run lint` to check if it's working
+
+## Install TypeScript editor plugin
+
+```zsh
 bun add @astrojs/ts-plugin
 ```
 
-```bash
-nvim tsconfig.json
-```
-
-TypeScript is configured using `tsconfig.json`.
+then add the following to `tsconfig.json` file
 
 ```json
 {
@@ -243,63 +237,24 @@ TypeScript is configured using `tsconfig.json`.
 }
 ```
 
-## Parser Installation
+## Create the astro.config.mjs File
 
-```bash
-bun add -D eslint @typescript-eslint/parser eslint-plugin-astro
+In case Astro didn’t generate the `astro.config.mjs` file after adding React, create it manually:
+
+```zsh
+vim astro.config.mjs
 ```
 
-```eslint.config.mjs
-import { defineConfig } from 'eslint-define-config'
-
-export default defineConfig([
-  {
-    files: ['*.astro'],
-    parser: 'astro-eslint-parser',
-    parserOptions: {
-      extraFileExtensions: ['.astro']
-    },
-    plugins: {
-      astro: import('eslint-plugin-astro')
-    },
-    extends: ['plugin:astro/recommended']
-  },
-  {
-    files: ['*.ts', '*.tsx'],
-    parser: '@typescript-eslint/parser',
-    plugins: {
-      '@typescript-eslint/parser': import('@typescript-eslint/parser')
-    },
-    extends: [
-      'plugin:@typescript-eslint/recommended',
-      'plugin:astro/recommended'
-    ]
-  }
-])
-```
-
-## Create your first static asset `robots.txt`
-
-You will also want to create a public/ directory to store your static assets. Astro will always include these assets in your final build, so you can safely reference them from inside your component templates.
-
-In your text editor, create a new file in your directory at public/robots.txt. robots.txt is a simple file that most sites will include to tell search bots like Google how to treat your site.
-
-```robots.txt
-# Full syntax: https://developers.google.com/search/docs/advanced/robots/create-robots-txt
-User-agent: *
-Allow: /
-```
-
-## Create `astro.config.mjs or ts`
+Add the following configuration:
 
 ```mjs
 import { defineConfig } from "astro/config";
+import react from "@astro/react";
 
-// https://astro.build/config
 export default defineConfig({
   integrations: [react()],
   devToolbar: {
-    enabled: false,
+    enabled: true,
   },
   server: {
     port: 3000,
@@ -307,16 +262,36 @@ export default defineConfig({
 });
 ```
 
-### Create a another file at `src/layouts/Layout.astro`
+This configuration ensures that React is integrated and sets up the development server to run on port `3000`.
 
-```html
+## Creating the Project Structure
+
+Let’s create the basic directory structure for your project:
+
+```zsh
+mkdir -p src/layouts src/pages src/components/astro src/components/react
+```
+
+This creates the necessary folders for layouts, pages, and components.
+
+## Create a Layout Component
+
+Navigate to the `src/layouts` directory and create a layout file. For example, create `Base.astro`:
+
+```zsh
+vim src/layouts/Base.astro
+```
+
+Add the following content:
+
+```astro
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content="{Astro.generator}" />
-    <title>Astro Basics</title>
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro with React</title>
   </head>
   <body>
     <slot />
@@ -324,14 +299,34 @@ export default defineConfig({
 </html>
 ```
 
-## Create index.astro
+## Create the Index Page
 
-create a new file in your directory at `src/pages/index.astro`
+Now, navigate to the `src/pages` directory and create the `index.astro` file:
+
+```zsh
+vim src/pages/index.astro
+```
+
+Add the following content to display a welcome message:
 
 ```astro
 ---
-import Main from '../layouts/main.astro';
+import Base from '../layouts/Base.astro';
 ---
 
-<Main />
+<Base>
+  <h1>Welcome to Astro with React!</h1>
+</Base>
 ```
+
+To run the development server, simply execute:
+
+```zsh
+bun run dev
+```
+
+Now you can access your project at http://localhost:3000 and start developing!
+
+## Congratulations! 🎉
+
+You’ve successfully set up an Astro project with React, TypeScript, and Bun. You can now start building your modern web applications with Astro and React, enjoying fast builds, efficient development, and powerful tooling.
