@@ -7,8 +7,8 @@ In this guide, we will walk through setting up a modern development environment 
 Start by creating a new project directory.
 
 ```zsh
-mkdir dir-name
-z dir-name
+mkdir astro-blog
+z astro-blog
 ```
 
 This will create a new directory and move into it.
